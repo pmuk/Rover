@@ -164,5 +164,16 @@ namespace Rover.Position.Tests
             var p = new Position(0, 5, 'W');
             Assert.AreEqual("[0, 5, W]", p.ToString());
         }
+
+        [TestMethod()]
+        public void SetGridTest()
+        {
+            var p = new Position(25, 35, 'N');
+            var g = new Grid();
+            g.SetSurface(20, 30);
+            p.SetGrid(g);
+            Assert.AreEqual(20, p.X);
+            Assert.AreEqual(30, p.Y);
+        }
     }
 }

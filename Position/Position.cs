@@ -25,6 +25,8 @@ namespace Rover.Position
         public void SetGrid(IGrid grid)
         {
             _grid = grid;
+            _x = _grid.CheckXBoundaries(_x);
+            _y = _grid.CheckYBoundaries(_y);
         }
 
         public void Rotate(char c)
@@ -49,10 +51,10 @@ namespace Rover.Position
                     _y = _grid == null ? _y + i : _grid.CheckYBoundaries(_y + i);
                     break;
                 case eDirection.South:
-                    _y = _grid == null ? _y - i : _grid.CheckYBoundaries(_y - i);
+                    _y = _grid == null ? _y - i < 0 ? 0 : _y - i : _grid.CheckYBoundaries(_y - i);
                     break;
                 case eDirection.West:
-                    _x = _grid == null ? _x - i : _grid.CheckXBoundaries(_x - i);
+                    _x = _grid == null ? _x - i < 0 ? 0 : _x - i : _grid.CheckXBoundaries(_x - i);
                     break;
                 case eDirection.East:
                     _x = _grid == null ? _x + i : _grid.CheckXBoundaries(_x + i);
