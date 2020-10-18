@@ -69,7 +69,7 @@ namespace Rover
             var exit = false;
             IPosition current = null;
             IGrid grid = null;
-            Console.WriteLine("Starting, enter command\ncreate grid : grid 30 40\ncreate rover : create rover1,\nexecute command for rover :\nenter name then\nset position e.g.[0 0 N]\nor\nmove R1L5LRLR1234...");
+            Console.WriteLine("Starting, enter command\ncreate grid : -grid 30 40\ncreate rover : -create rover1 (must not start with - L R or number)),\nexecute command for rover :\nenter name then\nset position e.g.[0 0 N]\nor\nmove R1L5LRLR1234...");
             while(!exit)
             {
                 var cmd = Console.ReadLine();
@@ -81,19 +81,28 @@ namespace Rover
                 }
                 try
                 {
-                    if(cmd[0] == 'g')
+                    if(cmd[0] == '-')
                     {
-                        grid = CreateGrid(cmd);
-                        foreach(var pos in _positions.Values)
+                        if(cmd.Length < 2)
                         {
-                            pos.SetGrid(grid);
+                            Console.WriteLine("A command starting with - must be -create or -grid.");
                         }
-                    }
-                    if(cmd[0] == 'c')
-                    {
-                        var res = Create(cmd);
-                        _positions.Add(res.Item1, res.Item2);
-                        current = res.Item2;
+                        if (cmd[1] == 'g')
+                        {
+                            grid = CreateGrid(cmd.Substring(1));
+                            foreach (var pos in _positions.Values)
+                            {
+                                pos.SetGrid(grid);
+                            }
+                        }
+                        else if (cmd[1] == 'c')
+                        {
+                            var res = Create(cmd.Substring(1));
+                            _positions.Add(res.Item1, res.Item2);
+                            current = res.Item2;
+                        }
+                        else
+                            Console.WriteLine("Unrecognised command.");
                     }
                     else if (cmd[0] == '[')
                     {
