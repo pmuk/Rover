@@ -77,8 +77,8 @@ namespace Rover.Position
             if (y < 0)
                 throw new ArgumentException($"invalid y = {y}, can only be positive.");
 
-            _x = x;
-            _y = y;
+            _x = _grid == null ? x : _grid.CheckXBoundaries(x);
+            _y = _grid == null ? y : _grid.CheckYBoundaries(y);
             _direction = direction switch
             {
                 'N' => eDirection.North,
